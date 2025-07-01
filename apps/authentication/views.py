@@ -1,10 +1,11 @@
-from urllib import request
 from django.shortcuts import render
 from rest_framework.views import APIView, status
 from rest_framework.response import Response
 from apps.authentication.serializers import MemberRegistrationSerializer
 from apps.member.models import Member
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -69,7 +70,7 @@ class OTPVerificationView(APIView):
             "user": {
                 "id": member.id,
                 "email": member.email,
-                "name": member.name,
+                "name": member.profile.name,
                 "is_active": member.is_active
             }
         }, status=status.HTTP_200_OK)
@@ -125,10 +126,25 @@ class UserLoginView(APIView):
         
         
 class UserLogoutView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     def post(self, request):
-        # Implement logout logic here, such as clearing session data or tokens
-        return Response({
-            "success": True,
-            "message": "User logged out successfully.",
-            "status code": status.HTTP_200_OK
-        }, status=status.HTTP_200_OK)
+        try:
+            refresh_token = request.data["refresh"]
+            tocken = RefreshToken(refresh_token)
+            tocken.blacklist()  
+
+            # Blacklist the refresh token
+            return Response({
+                "success": True,
+                "message": "User logged out successfully.",
+                "status code": status.HTTP_200_OK
+            }, status=status.HTTP_200_OK)
+        except KeyError:
+            return Response({
+                "success": False,
+                "message": "Refresh token not provided.",
+                "status code": status.HTTP_400_BAD_REQUEST
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
