@@ -27,6 +27,10 @@ AUTH_USER_MODEL = "member.Member"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+STATIC_URL = 'static/'
+
+# for django >= 3.1
+STATICFILES_DIRS = [ BASE_DIR / "static" ]  # new
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -62,6 +66,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',  # JWT authentication
     'rest_framework_simplejwt.token_blacklist',  # Token revocation
     'django.contrib.sites',  # new
+    
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -70,7 +75,6 @@ INSTALLED_APPS = [
     # Local apps
     'apps.member',
     'apps.authentication',
-    'apps.user',
     'apps.subscriptions',
     
 ]
@@ -98,6 +102,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static',
             ],
         },
     },
@@ -152,6 +157,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -192,19 +198,13 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,  # Invalidates old refresh tokens
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',  # For browsable API
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT
-        # 'rest_framework.permissions.IsAuthenticated',
-    ),
-}
 
 
 
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 STRIPE_PRICE_ID = config('STRIPE_PRICE_ID')
+STRIPE_ENDPOINT_SECRET = config('STRIPE_ENDPOINT_SECRET')
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -215,3 +215,4 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = '/'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ok
+

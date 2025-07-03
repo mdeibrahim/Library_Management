@@ -1,10 +1,12 @@
-from django.conf import settings
-from django.db import models
 
+from django.db import models
+from apps.member.models import Member
+
+# models.py
 class StripeCustomer(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='stripe_customer')
-    stripe_customer_id = models.CharField(max_length=255, unique=True)
-    stripe_subscription_id = models.CharField(max_length=255, blank=True, null=True)
+    member = models.OneToOneField(Member, on_delete=models.CASCADE)
+    stripeCustomerId = models.CharField(max_length=255)
+    stripeSubscriptionId = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.user.email} - {self.stripe_customer_id}"
+        return self.member.email

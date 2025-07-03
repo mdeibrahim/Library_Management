@@ -58,3 +58,24 @@ Thumbs.db
 
 # Local settings
 local_settings.py
+
+# Virtual environment
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Static files
+staticfiles/
+
+# Database
+db.sqlite3
+
+# Python cache files
+*.pyc
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# VS Code settings
+.vscode/
