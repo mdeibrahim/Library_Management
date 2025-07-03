@@ -15,7 +15,7 @@ from pathlib import Path
 from datetime import timedelta
 
 
-from dj_database_url import config
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

@@ -113,11 +113,6 @@ class UserLoginView(APIView):
             "profile": {
                 "first_name": user.first_name,
                 "last_name": user.last_name,
-                "bio": user.bio,
-                "age": user.profile.age,
-                "gender": user.profile.gender,
-                "address": user.profile.address,
-                "phone": user.profile.phone,
                 "is_active": user.is_active
             },
             "access_token": str(RefreshToken.for_user(user).access_token),
