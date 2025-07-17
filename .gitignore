@@ -79,3 +79,5 @@ __pycache__/
 
 # VS Code settings
 .vscode/
+API_REQUIREMENTS_STATUS.md
+TASK3_API_DOCUMENTATION.md

@@ -2,20 +2,28 @@ from django.db import models
 from .manager import UserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
+
+
 class Member(AbstractBaseUser, PermissionsMixin):
+    
+    ROLE_CHOICES = (
+        ('librarian', 'Librarian'),
+        ('member', 'Member'),
+    )
+    
     email= models.EmailField('Your Email', unique=True)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
     bio = models.TextField(blank=True, null=True)
-    
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='member')
 
-    is_active= models.BooleanField(default= False)
+    is_active= models.BooleanField(default=True)
     is_staff= models.BooleanField(default=False)
     is_superuser= models.BooleanField(default= False)
     
-    otp = models.CharField(max_length=6, blank=True, null=True)
-    otp_exp = models.DateTimeField(blank=True, null=True) 
-    otp_verified = models.BooleanField(default=False)
+    # otp = models.CharField(max_length=6, blank=True, null=True)
+    # otp_exp = models.DateTimeField(blank=True, null=True) 
+    # otp_verified = models.BooleanField(default=False)
 
     objects= UserManager()
     USERNAME_FIELD= 'email'
@@ -40,8 +48,9 @@ class Profile(models.Model):
           return self.member.email
       
 class Book(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    # member = models.ForeignKey(Member, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
+    quantity = models.PositiveIntegerField(default=1)
     author = models.CharField(max_length=255)
     published_date = models.DateField()
     category = models.CharField(max_length=100)
