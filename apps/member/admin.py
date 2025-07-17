@@ -13,7 +13,7 @@ class ProfileAdmin(ModelAdmin):
 
 @admin.register(Book)
 class BookAdmin(ModelAdmin):
-    list_display = ('id', 'member', 'title', 'author', 'published_date', 'category', 'available')
+    list_display = ('id', 'title', 'author', 'quantity', 'published_date', 'category', 'available')
     list_filter = ('available', 'category')
 
 @admin.register(Author)
