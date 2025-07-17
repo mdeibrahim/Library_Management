@@ -15,6 +15,8 @@ STATIC_URL = 'static/'
 
 # for django >= 3.1
 STATICFILES_DIRS = [ BASE_DIR / "static" ]  # new
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -22,15 +24,16 @@ STATICFILES_DIRS = [ BASE_DIR / "static" ]  # new
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
+DEBUG = False
 
 
-ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='*').split(',')
+ALLOWED_HOSTS = [".vercel.app", "localhost", "127.0.0.1"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     "unfold",  # before django.contrib.admin
     "django.contrib.admin",  # required
     
@@ -69,6 +72,7 @@ DJOSER = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -96,7 +100,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = 'project.wsgi.app'
 
 
 # Database
