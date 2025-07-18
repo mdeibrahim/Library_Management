@@ -27,7 +27,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 DEBUG = False
 
 
-ALLOWED_HOSTS = [".vercel.app", "127.0.0.1"]
+ALLOWED_HOSTS = [".vercel.app", "http://127.0.0.1:8000/swagger/"]
 
 
 # Application definition
